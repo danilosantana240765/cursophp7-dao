@@ -18,7 +18,15 @@ echo $root*/
 
 //Carrega o usuario o login e uma senha
 
+// Criando um novo usuario
+//$usuario = new Usuario();
+//$usuario->login("danilo", "12345678d");
+/*$aluno = new Usuario("hcode", "12345");
+$aluno->insert();
+echo $aluno;*/
+
 $usuario = new Usuario();
-$usuario->login("danilo", "12345678d");
+$usuario->loadById(10);
+$usuario->update("professor", "professor");
 
 echo $usuario;
