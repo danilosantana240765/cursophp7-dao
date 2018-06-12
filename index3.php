@@ -24,9 +24,15 @@ echo $root*/
 /*$aluno = new Usuario("hcode", "12345");
 $aluno->insert();
 echo $aluno;*/
-
-$usuario = new Usuario();
+// Alterar um usuarios
+/*$usuario = new Usuario();
 $usuario->loadById(10);
 $usuario->update("professor", "professor");
+
+echo $usuario;*/
+
+$usuario = new Usuario();
+$usuario->loadById(11);
+$usuario->delete();
 
 echo $usuario;
