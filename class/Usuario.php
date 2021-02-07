@@ -99,6 +99,18 @@ class Usuario {
 		));
 	}
 
+	public function delete() {
+		$sql = new Sql();
+		$sql->query("DELETE FROM usuario WHERE idusuario = :ID", array(
+			":ID" => $this->getIdUsuario()
+		));
+
+		$this->setIdUsuario(null);
+		$this->setDesLogin(null);
+		$this->setDesSenha(null);
+		$this->setDtCadastro(null);
+	}
+
 	private function setData($data) {
 		$this->setIdUsuario($data["idusuario"]);
 		$this->setDesLogin($data["deslogin"]);
@@ -111,7 +123,7 @@ class Usuario {
 			"idusuario" => $this->getIdUsuario(),
 			"deslogin" => $this->getDesLogin(),
 			"dessenha" => $this->getDesSenha(),
-			"dtcadastro" => $this->getDtCadastro()->format("d/m/Y H:i:s")
+			"dtcadastro" => (!is_null($this->getDtCadastro())) ? $this->getDtCadastro()->format("d/m/Y H:i:s"): null
 		));
 	}
 }

@@ -35,7 +35,14 @@ $user->insert();
 echo $user;*/
 
 # Atualizando o usuario
-$usuario = new Usuario();
+/*$usuario = new Usuario();
 $usuario->loadById(8);
 $usuario->update("professor", "@93838s");
+echo $usuario;*/
+
+# Deletando um usuário
+$usuario = new Usuario();
+$usuario->loadById(7);
+$usuario->delete();
+
 echo $usuario;
