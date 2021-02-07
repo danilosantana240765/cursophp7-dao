@@ -44,13 +44,8 @@ class Usuario {
 			":ID" => $id
 		));
 
-		if(count($result[0]) > 0) {
-			$row = $result[0];
-
-			$this->setIdUsuario($row["idusuario"]);
-			$this->setDesLogin($row["deslogin"]);
-			$this->setDesSenha($row["dessenha"]);
-			$this->setDtCadastro(new DateTime($row["dtcadastro"]));
+		if(isset($result[0]) > 0) {
+			$this->setData($result[0]);
 		}
 	}
 
@@ -72,15 +67,43 @@ class Usuario {
 		));
 
 		if(isset($result[0])) {
-			$row = $result[0];
-
-			$this->setIdUsuario($row["idusuario"]);
-			$this->setDesLogin($row["deslogin"]);
-			$this->setDesSenha($row["dessenha"]);
-			$this->setDtCadastro(new DateTime($row["dtcadastro"]));
+			$this->setData($result[0]);
 		} else {
 			throw new Exception("Login ou senha inválido", 1);
 		}
+	}
+
+	public function insert() {
+		$sql = new Sql();
+		$result = $sql->select("CALL sp_inserir_usuario(:LOGIN, :PASS)", array(
+			":LOGIN" => $this->getDesLogin(),
+			":PASS" => $this->getDesSenha()
+		));
+
+		if(isset($result[0])) {
+			$this->setData($result[0]);
+		} else {
+			throw new Exception("Erro ao tentar inserir um usuário no banco.");
+		}
+	}
+
+	public function update($login, $pass) {
+		$this->setDesLogin($login);
+		$this->setDesSenha($pass);
+
+		$sql = new Sql();
+		$sql->query("UPDATE usuario SET deslogin = :LOGIN, dessenha = :PASS WHERE idusuario = :ID", array(
+			":LOGIN" => $this->getDesLogin(),
+			":PASS" => $this->getDesSenha(),
+			":ID" => $this->getIdUsuario()
+		));
+	}
+
+	private function setData($data) {
+		$this->setIdUsuario($data["idusuario"]);
+		$this->setDesLogin($data["deslogin"]);
+		$this->setDesSenha($data["dessenha"]);
+		$this->setDtCadastro(new DateTime($data["dtcadastro"]));
 	}
 
 	public function __toString() {
